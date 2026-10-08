@@ -33,7 +33,7 @@ for i in range(2,len(nodes)+1):
     temp = None
     for j in range(1,i):
         for destination, cost in nodes[j]:
-            if destination == i and L[j-1] != negative_infinity::
+            if destination == i and L[j-1] != negative_infinity:
                 if (L[j-1]+ cost) > maximum:
                     maximum = (L[j-1]+ cost)
                     temp = j
