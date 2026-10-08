@@ -11,8 +11,11 @@ Assumptions:
     - Non-negative edge costs.
     - All referenced nodes exist in the graph.
     - Unreachable nodes are omitted from result.
-Time complexity worst case:
-    O(n^3) = O(n) iterations* (  (O(n) for minimum search) +  (O(n) for each neighbour * O(n) for search in S)  )
+Time complexity (assuming average-case O(1) dictionary operations):
+    O(n^2 + mn), where n is the number of nodes and m is the number of arcs.
+    For dense graphs, this becomes O(n^3).
+    S is a list: membership checks require a linear search, taking O(n) in the worst case.
+    In contrast, a set uses hashing to achieve O(1) membership on average, reducing the expected complexity to O(n^2) for simple graphs.
 """
 
 nodes = {
@@ -56,8 +59,8 @@ while len(S) < len_nodes:										#Time complexity: O(n)
     del temp[node]
     
     for near_node, cost in nodes[node]:							#update cost of neighbours only if they aren't in S and the path is shorter
-                                                                #Time complexity: O(n) (number of edges from each node: at worst (n-1) neighbours)
-        if near_node in S:	#Time complexity: O(n)
+                                                                #Time complexity: O(degree(node)), at most O(n) in a simple graph
+        if near_node in S:										#Time complexity: O(n)
             continue
         if near_node in temp and temp[near_node][0] <= minimum[1][0] + cost:
             continue
