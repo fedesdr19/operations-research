@@ -12,10 +12,10 @@ Assumptions:
     - All referenced nodes exist in the graph.
     - Unreachable nodes are omitted from result.
 Time complexity (expected):
-    S is a set: hashing allows O(1) membership checks on average, unlike a list, which requires a linear search taking O(n) in the worst case.
-    This reduces the expected overall complexity from O(n^3) to O(n^2).
-    However, hash collisions can make set membership O(n) in the worst case, so O(n^2) is an expected bound, not a strict worst-case guarantee.
-    O(n^2) = O(n) iterations* (  (O(n) for minimum search) +  (O(n) for each neighbour * O(1) for search in S)  )
+    O(n^2 + m), where n is the number of nodes and m is the number of arcs.
+    For simple graphs, this becomes O(n^2).
+    S is a set: hashing allows O(1) membership checks on average, unlike a list, which requires O(n) in the worst case.
+    Hash collisions can make set membership O(n) in the worst case, so O(n^2) is an expected bound, not a strict worst-case guarantee.
 """
 
 nodes = {
@@ -59,8 +59,8 @@ while len(S) < len_nodes:										#Time complexity: O(n)
     del temp[node]
     
     for near_node, cost in nodes[node]:							#update cost of neighbours only if they aren't in S and the path is shorter
-                                                                #Time complexity: O(n) (number of edges from each node: at worst (n-1) neighbours)
-        if near_node in S:	#Time complexity: O(1)
+                                                                #Time complexity: O(degree(node)), at most O(n) in a simple graph
+        if near_node in S:										#Time complexity: O(1) on average
             continue
         if near_node in temp and temp[near_node][0] <= minimum[1][0] + cost:
             continue
